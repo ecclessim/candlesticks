@@ -18,11 +18,13 @@ class Candlesticks extends StatefulWidget {
   final String interval;
 
   final List<String>? intervals;
+  final bool showIntervalButton;
 
   Candlesticks({
     required this.candles,
     required this.onIntervalChange,
     required this.interval,
+    required this.showIntervalButton,
     this.intervals,
   });
 
@@ -109,50 +111,52 @@ class _CandlesticksState extends State<Candlesticks> {
                     color: ColorPalette.grayColor,
                   ),
                 ),
-                CustomButton(
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return Center(
-                          child: Container(
-                            width: 200,
-                            color: ColorPalette.digalogColor,
-                            child: Wrap(
-                              children: (widget.intervals ?? intervals)
-                                  .map(
-                                    (e) => Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: CustomButton(
-                                        width: 50,
-                                        color: ColorPalette.lightGold,
-                                        child: Text(
-                                          e,
-                                          style: TextStyle(
-                                            color: ColorPalette.gold,
+                widget.showIntervalButton == false
+                    ? Container()
+                    : CustomButton(
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return Center(
+                                child: Container(
+                                  width: 200,
+                                  color: ColorPalette.digalogColor,
+                                  child: Wrap(
+                                    children: (widget.intervals ?? intervals)
+                                        .map(
+                                          (e) => Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: CustomButton(
+                                              width: 50,
+                                              color: ColorPalette.lightGold,
+                                              child: Text(
+                                                e,
+                                                style: TextStyle(
+                                                  color: ColorPalette.gold,
+                                                ),
+                                              ),
+                                              onPressed: () {
+                                                widget.onIntervalChange(e);
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
                                           ),
-                                        ),
-                                        onPressed: () {
-                                          widget.onIntervalChange(e);
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
+                                        )
+                                        .toList(),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        child: Text(
+                          widget.interval,
+                          style: TextStyle(
+                            color: ColorPalette.grayColor,
                           ),
-                        );
-                      },
-                    );
-                  },
-                  child: Text(
-                    widget.interval,
-                    style: TextStyle(
-                      color: ColorPalette.grayColor,
-                    ),
-                  ),
-                ),
+                        ),
+                      ),
               ],
             ),
           ),

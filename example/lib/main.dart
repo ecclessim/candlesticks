@@ -118,6 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 },
                 candles: candles,
                 interval: interval,
+                showIntervalButton: false,
               );
             },
           ),
